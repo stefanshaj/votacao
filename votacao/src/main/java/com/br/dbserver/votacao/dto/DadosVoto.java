@@ -6,11 +6,13 @@ import jakarta.validation.constraints.NotNull;
 
 public record DadosVoto(
 	@NotNull
-	Long usuarioId,
+	Long associadoId,
 	@NotNull
 	Long pautaId,
 	@NotNull
 	TipoVoto tipoVoto
 		) {
+
+
 
 }

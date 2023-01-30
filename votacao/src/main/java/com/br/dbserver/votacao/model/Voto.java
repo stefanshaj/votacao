@@ -1,21 +1,16 @@
 package com.br.dbserver.votacao.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import com.br.dbserver.votacao.dto.DadosVoto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,29 +19,40 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
-public class Voto {
+public class Voto implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 	
-	public Voto(@Valid DadosVoto dados, Pauta pauta) {
+	public Voto(@Valid DadosVoto dados, Pauta pauta, Associado associado) {
 		this.tipoVoto = dados.tipoVoto(); 
-		this.pauta = pauta;
-		this.usuarioId = dados.usuarioId();
+		this.id.setAssociado(associado);
+        this.id.setPauta(pauta);
 		this.dataRegistroVoto = LocalDateTime.now();
 	}
-	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	private LocalDateTime dataRegistroVoto;
-	private TipoVoto tipoVoto;
 
-	@Column(name="usuario_id", nullable = false)
-	private Long usuarioId;
+
+	private LocalDateTime dataRegistroVoto;
+	private TipoVoto tipoVoto;
+
+	@JsonIgnore
+    @EmbeddedId
+    private VotoPK id = new VotoPK();
 	
-	@ManyToOne
-    @JoinColumn(name="pauta_id", nullable=false)
-	private Pauta pauta;
+    public Associado getAssociado() {
+        return id.getAssociado();
+    }
 	
-	
+    public void setAssociado(Associado associado) {
+        id.setAssociado(associado);
+    }
+
+    public Pauta getPauta() {
+        return id.getPauta();
+    }
+
+    public void setPauta(Pauta pauta) {
+        id.setPauta(pauta);
+    }
 	
 
 }

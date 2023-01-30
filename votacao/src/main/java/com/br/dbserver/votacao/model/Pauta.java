@@ -40,7 +40,7 @@ public class Pauta {
 	
 	private String resultadoVotacao;
 	
-	@OneToMany(mappedBy = "pauta")
+	@OneToMany(mappedBy = "id.pauta")
 	private List<Voto> listaVotos;
 	
 	
@@ -54,10 +54,6 @@ public class Pauta {
 
 	public Pauta(@Valid DadosCadastroPauta dados) {
 		this.tema = dados.tema();
-	}
-	
-	public void atualizarResultado(String resultado) {
-		this.resultadoVotacao = resultado;
 	}
 	
 }

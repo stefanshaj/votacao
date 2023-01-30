@@ -46,6 +46,11 @@ public class PautaService {
 			pautaRepository.save(pauta);
 		}
 	}
+
+
+	public void atualizarResultado(long id, String resultado) {
+		pautaRepository.atualizarResultado(id, resultado);
+	}
 	
 			
 
